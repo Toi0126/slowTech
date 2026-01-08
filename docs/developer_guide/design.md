@@ -10,3 +10,6 @@
   - Data: AppSync(GraphQL) + DynamoDB
   - Auth: Cognito（Identity Pool によるゲスト/IAM）
   - Hosting: Amplify Hosting（静的配信）
+
+## 主要モジュール（フロントエンド）
+- `web/app.js`
