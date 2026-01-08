@@ -15,7 +15,9 @@
   - Hosting: Amplify Hosting（静的配信）
 
 ## アップロード方式（MVP）
-動画/音声ファイルはブラウザからS3へ直接アップロードする（署名付きURL等を利用）。
+動画/音声ファイルはブラウザからS3へ直接アップロードする。
+
+MVP（サンプル品質）では実装を簡単にするため、署名付きURL（プリサインドPUT）を利用する。
 
 想定フロー（例）:
 1. フロントがGraphQLで「アップロード開始（セッション作成）」を要求
@@ -23,6 +25,39 @@
 3. フロントがS3へPUT/POSTしてファイルアップロード
 4. フロントがGraphQLで「アップロード完了」を通知し、メタデータの状態を更新
 5. フロントは処理中画面（ダミー）→結果画面（ダミー）へ遷移
+
+## GraphQL API（MVP・最小）
+Amplify Gen 2（AppSync）で以下の責務を満たすAPIを提供する。
+
+- アップロード開始（セッション作成）
+  - 目的: `upload_id` を発行し、S3アップロード先（Key）とプリサインドURLを返す
+  - 入力例:
+    - `file_name`（任意）
+    - `content_type`（必須）
+    - `file_size_bytes`（必須）
+    - `input_text`（任意）
+  - 出力例:
+    - `upload_id`
+    - `status`（`UPLOADING`）
+    - `s3_bucket` / `s3_key`
+    - `presigned_put_url`
+    - `expires_at`
+
+- アップロード完了
+  - 目的: S3アップロード完了を通知し、メタデータを `UPLOADED` に更新する
+  - 入力例:
+    - `upload_id`
+    - `s3_bucket` / `s3_key`
+    - `content_type`
+    - `file_size_bytes`
+  - 出力例:
+    - `upload_id`
+    - `status`（`UPLOADED` or `FAILED`）
+
+ステータス（例）:
+- `UPLOADING`: セッション作成済み（S3アップロード中）
+- `UPLOADED`: 入力の受付完了（MVPではここでダミー画面へ遷移）
+- `FAILED`: 制約違反や検証失敗
 
 ## 認証・権限（MVP）
 - Cognito Identity Pool のゲスト（unauth）を利用し、未ログインでもアップロード可能とする。
@@ -50,14 +85,17 @@ DynamoDBにはアップロードのメタデータ（ジョブ/入力情報）�
 - 動画/音声の長さ上限: 2分
 - 動画/音声の最大ファイルサイズ: 300MB
 - 許可形式（拡張子/Content-Type）
-  - 動画: `.mp4`（`video/mp4`）、`.mov`（`video/quicktime`）
-  - 音声: `.m4a`（`audio/mp4`）
+  - 動画: `.mp4`（`video/mp4`）、`.mov`（`video/quicktime`）、`.3gp`（`video/3gpp`）
+  - 音声: `.m4a`（`audio/mp4`）、`.aac`（`audio/aac`）
 - テキスト入力の最大文字数: 10,000文字
+
+補足:
+- 入力はスマホ（iPhone/Android）で録音・録画したファイルを想定するため、まずは一般的なデフォルト形式（mp4/mov/m4a/3gp/aac）に絞る。
 
 制約の担保（考え方）:
 - クライアント側で事前チェック（サイズ、拡張子/Content-Type、テキスト文字数）を行う。
-- S3へのアップロードは、可能なら署名付きPOSTポリシーで `content-length-range` 等によりサイズ上限を強制する。
-  - PUT方式を採用する場合は、アップロード完了時にサイズ/Content-Typeを検査し、超過時は削除して `FAILED` にする。
+- S3へのアップロードは、MVPではPUT方式とし、アップロード完了時にサイズ/Content-Typeを検査して超過時は削除し、`FAILED` にする。
+  - より厳密に強制したい場合は、署名付きPOSTポリシーで `content-length-range` 等によりサイズ上限を強制する。
 
 ## 主要モジュール（フロントエンド）
 - `web/app.js`
