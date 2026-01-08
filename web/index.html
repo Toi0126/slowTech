@@ -60,12 +60,61 @@
         font-size: 2rem;
         font-weight: 700;
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary) 100%);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
         letter-spacing: -0.02em;
+      }
+
+      .app-description {
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        padding: 20px;
+        background: var(--surface);
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        line-height: 1.8;
+      }
+
+      .app-description strong {
+        color: var(--primary-light);
+        font-weight: 600;
+      }
+
+      .section-description {
+        background: rgba(99, 102, 241, 0.05);
+        border-left: 3px solid var(--primary);
+        padding: 16px;
+        margin-bottom: 16px;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        line-height: 1.7;
+      }
+
+      .section-description strong {
+        color: var(--primary-light);
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .example-list {
+        margin: 12px 0;
+        padding-left: 20px;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .example-list li {
+        margin: 6px 0;
+        line-height: 1.6;
+      }
+
+      .example-list li::marker {
+        color: var(--primary-light);
       }
 
       section {
@@ -282,11 +331,28 @@
   </head>
   <body>
     <main>
-      <h1>💚 あいだのきもち For Parents</h1>
+      <h1>🌸 あいだのきもち For Parents</h1>
+      
+      <div class="app-description">
+        <strong>お子さんとの会話や思い出を記録・整理</strong><br>
+        動画や音声を文字起こしして、大切な言葉を残しましょう。
+      </div>
 
       <form id="upload-form" novalidate>
         <section>
-          <h2>📹 動画/音声（任意）</h2>
+          <h2>📹 動画/音声をアップロード（任意）</h2>
+          
+          <div class="section-description">
+            <strong>💡 こんな録画をアップロードできます：</strong>
+            <ul class="example-list">
+              <li>🗣️ お子さんとの日常会話の録音</li>
+              <li>🎂 誕生日や行事での言葉のやりとり</li>
+              <li>📱 スマホで撮影した家族の動画</li>
+              <li>🎤 子どもの発表会や音読の記録</li>
+              <li>💬 相談や悩み事の話し合いの記録</li>
+            </ul>
+          </div>
+          
           <div class="file-upload-area" id="file-upload-area">
             <div class="file-upload-icon">📁</div>
             <div class="file-label">
@@ -313,13 +379,26 @@
         </section>
 
         <section>
-          <h2>✍️ テキスト（任意）</h2>
+          <h2>✍️ テキストを入力（任意）</h2>
+          
+          <div class="section-description">
+            <strong>📝 こんな内容を入力できます：</strong>
+            <ul class="example-list">
+              <li>✏️ 動画の補足説明や背景情報</li>
+              <li>💭 その時の気持ちや状況のメモ</li>
+              <li>📖 日記形式での記録</li>
+              <li>🎯 要約してほしい長い文章</li>
+              <li>📄 会話の書き起こしテキスト</li>
+            </ul>
+            ※ 動画/音声とテキストのどちらか一方、または両方を入力してください
+          </div>
+          
           <textarea
             id="input-text"
             name="inputText"
             rows="10"
             maxlength="10000"
-            placeholder="ここに文章を入力（最大10,000文字）"
+            placeholder="例：今日は公園で遊んだ時の会話です。最近学校のことをよく話してくれるようになりました..."
           ></textarea>
           <div class="text-counter">
             <span id="text-count">0</span> / 10,000文字
