@@ -1,5 +1,5 @@
 # SlowTech
-Parents あいだのきもち Web App
+あいだのきもち For Parents
 
 ## 別PCでの作業再開
 
