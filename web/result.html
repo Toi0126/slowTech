@@ -4,24 +4,230 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SlowTech - 結果</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --primary-light: #818cf8;
+        --secondary: #ec4899;
+        --background: #0f172a;
+        --surface: #1e293b;
+        --surface-hover: #334155;
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --border: #334155;
+        --success: #10b981;
+        --shadow: rgba(0, 0, 0, 0.3);
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: var(--text-primary);
+        min-height: 100vh;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      main {
+        max-width: 900px;
+        margin: 0 auto;
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 8px 16px;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid var(--success);
+        color: var(--success);
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      section {
+        background: var(--surface);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 24px;
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 6px var(--shadow);
+        transition: all 0.3s ease;
+      }
+
+      section:hover {
+        box-shadow: 0 8px 16px var(--shadow);
+      }
+
+      h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      pre {
+        background: var(--background);
+        padding: 16px;
+        border-radius: 12px;
+        overflow-x: auto;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+      #dummy-output {
+        background: var(--background);
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        margin-bottom: 16px;
+        line-height: 1.8;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+        font-size: 1rem;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+      }
+
+      .btn-secondary {
+        background: var(--surface-hover);
+        color: var(--text-primary);
+        border: 1px solid var(--border);
+      }
+
+      .btn-secondary:hover {
+        background: var(--border);
+      }
+
+      .btn[aria-disabled="true"] {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      .back-link {
+        text-align: center;
+        margin-top: 2rem;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 12px;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        section {
+          padding: 16px;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
   </head>
   <body>
     <main>
-      <h1>結果</h1>
-      <p>（MVPではダミー表示です）</p>
+      <div class="header">
+        <h1>✅ 処理完了</h1>
+        <div class="status-badge">（MVPではダミー表示です）</div>
+      </div>
 
       <section>
-        <h2>入力内容（確認用）</h2>
+        <h2>📋 入力内容（確認用）</h2>
         <pre id="input-preview"></pre>
       </section>
 
       <section>
-        <h2>生成結果（ダミー）</h2>
-        <p id="dummy-output">ここに将来、文字起こし・要約結果が表示されます。</p>
-        <a id="dummy-download" href="#" aria-disabled="true">結果をダウンロード（ダミー）</a>
+        <h2>🎯 生成結果（ダミー）</h2>
+        <div id="dummy-output">ここに将来、文字起こし・要約結果が表示されます。</div>
+        <div class="button-group">
+          <a id="dummy-download" href="#" class="btn btn-primary" aria-disabled="true">📥 結果をダウンロード（ダミー）</a>
+          <button class="btn btn-secondary" onclick="navigator.clipboard.writeText('ダミーテキスト')">📋 コピー</button>
+        </div>
       </section>
 
-      <p><a href="./index.html">もう一度アップロード</a></p>
+      <div class="back-link">
+        <a href="./index.html" class="btn btn-secondary">🔄 もう一度アップロード</a>
+      </div>
     </main>
 
     <script src="./app.js"></script>

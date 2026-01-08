@@ -143,11 +143,35 @@
     const fileInput = $("media-file");
     const textArea = $("input-text");
     const textCount = $("text-count");
+    const fileUploadArea = $("file-upload-area");
+    const fileSelected = $("file-selected");
+    const fileName = $("file-name");
+    const fileSize = $("file-size");
 
     if (!form || !fileInput || !textArea || !textCount) return;
 
     const updateCount = () => {
       textCount.textContent = String(textArea.value.length);
+    };
+
+    const formatFileSize = (bytes) => {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    };
+
+    const displaySelectedFile = (file) => {
+      if (file && fileName && fileSize && fileSelected) {
+        fileName.textContent = file.name;
+        fileSize.textContent = formatFileSize(file.size);
+        fileSelected.classList.add('show');
+      }
+    };
+
+    const clearFileDisplay = () => {
+      if (fileSelected) {
+        fileSelected.classList.remove('show');
+      }
     };
 
     textArea.addEventListener("input", () => {
@@ -157,7 +181,44 @@
 
     fileInput.addEventListener("change", () => {
       clearError();
+      const file = fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+      if (file) {
+        displaySelectedFile(file);
+      } else {
+        clearFileDisplay();
+      }
     });
+
+    // Drag and drop functionality
+    if (fileUploadArea) {
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        fileUploadArea.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        });
+      });
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        fileUploadArea.addEventListener(eventName, () => {
+          fileUploadArea.classList.add('drag-over');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        fileUploadArea.addEventListener(eventName, () => {
+          fileUploadArea.classList.remove('drag-over');
+        });
+      });
+
+      fileUploadArea.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          fileInput.files = files;
+          displaySelectedFile(files[0]);
+          clearError();
+        }
+      });
+    }
 
     updateCount();
 
@@ -207,6 +268,7 @@
 
   function setupProcessingPage() {
     const progress = $("progress");
+    const progressBar = $("progress-bar");
     if (!progress) return;
 
     // ダミー進捗
@@ -214,9 +276,14 @@
     const intervalId = window.setInterval(() => {
       pct = Math.min(100, pct + 20);
       progress.textContent = `進捗: ${pct}%`;
+      if (progressBar) {
+        progressBar.style.width = `${pct}%`;
+      }
       if (pct >= 100) {
         window.clearInterval(intervalId);
-        window.location.href = "./result.html";
+        window.setTimeout(() => {
+          window.location.href = "./result.html";
+        }, 500);
       }
     }, 600);
   }
