@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SlowTech - Upload</title>
+  </head>
+  <body>
+    <main>
+      <h1>あいだのきもち For Parents</h1>
+
+      <form id="upload-form" novalidate>
+        <section>
+          <h2>動画/音声（任意）</h2>
+          <input
+            id="media-file"
+            name="mediaFile"
+            type="file"
+            accept="video/mp4,video/quicktime,video/3gpp,audio/mp4,audio/aac,.mp4,.mov,.3gp,.m4a,.aac"
+          />
+          <p id="file-hint">
+            上限: 2分 / 300MB。形式: mp4, mov, 3gp, m4a, aac
+          </p>
+        </section>
+
+        <section>
+          <h2>テキスト（任意）</h2>
+          <textarea
+            id="input-text"
+            name="inputText"
+            rows="10"
+            maxlength="10000"
+            placeholder="ここに文章を入力（最大10,000文字）"
+          ></textarea>
+          <div>
+            <span id="text-count">0</span> / 10000
+          </div>
+        </section>
+
+        <div id="error" role="alert" aria-live="polite"></div>
+
+        <button id="submit" type="submit">送信</button>
+      </form>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

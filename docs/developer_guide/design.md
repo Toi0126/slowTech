@@ -7,7 +7,7 @@
 
 ## 構成
 - フロントエンド: `web/`（静的HTML + JS。スマホブラウザで動く）
-  - ※現状は未作成で、MVP実装時に作成する。
+  - MVP初期はバックエンド未接続のスタブとして、画面遷移と入力制約チェックまで実装する。
 - バックエンド: Amplify Gen 2（TypeScriptでIaC）
   - Data: AppSync(GraphQL) + DynamoDB
   - Storage: S3（動画/音声ファイルの保管）
@@ -99,3 +99,8 @@ DynamoDBにはアップロードのメタデータ（ジョブ/入力情報）�
 
 ## 主要モジュール（フロントエンド）
 - `web/app.js`
+
+MVP初期スタブの画面:
+- `web/index.html`（Upload）
+- `web/processing.html`（処理中・ダミー）
+- `web/result.html`（結果・ダミー）
