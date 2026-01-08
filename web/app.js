@@ -271,7 +271,7 @@
     const progressBar = $("progress-bar");
     if (!progress) return;
 
-    // ダミー進捗
+    // ダミー進捗（5秒で完了）
     let pct = 0;
     const intervalId = window.setInterval(() => {
       pct = Math.min(100, pct + 20);
@@ -285,7 +285,7 @@
           window.location.href = "./result.html";
         }, 500);
       }
-    }, 600);
+    }, 1000); // 1秒ごとに20%ずつ進行（合計5秒）
   }
 
   function setupResultPage() {
