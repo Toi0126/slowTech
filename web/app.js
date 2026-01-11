@@ -3,6 +3,62 @@
   const MAX_FILE_SIZE_BYTES = 300 * 1024 * 1024;
   const MAX_MEDIA_DURATION_SECONDS = 120;
 
+  // docs/developer_guide/unit/parent_child_mock_cases.csv をもとにハードコード（MVP）
+  const PARENT_CHILD_MOCK_CASES = [
+    {
+      caseId: "C01",
+      scene: "帰宅直後・過剰な刺激",
+      trigger: "帰宅直後／話しかけが連続",
+      childMessage: "お母さんは、いま頭を少し休ませたいみたい。あとでなら、ちゃんとお話できるよ。",
+      parentNotification: "（記録）『いまは休みたい』が伝わりにくい場面。落ち着いたら声かけを。",
+    },
+    {
+      caseId: "C02",
+      scene: "時間制約（登園・登校前）",
+      trigger: "出発前／遅刻不安",
+      childMessage: "お父さんは、時間が少し心配みたい。いっしょに早くできると安心するよ。",
+      parentNotification: "（記録）焦りが強い声色になりやすい。短い合図語を用意。",
+    },
+    {
+      caseId: "C03",
+      scene: "家事中の中断",
+      trigger: "料理／片付け中に呼ばれる",
+      childMessage: "お母さんはいま手がいっぱいみたい。終わったら聞いてくれるよ。",
+      parentNotification: "（記録）“後で”の約束を明示すると衝突が減る可能性。",
+    },
+    {
+      caseId: "C04",
+      scene: "声色の落ち込み（怒りに誤解）",
+      trigger: "説明が通らない／会話が途切れる",
+      childMessage: "お父さんは、うまく伝えられなくて少ししょんぼりしているみたい。",
+      parentNotification: "（記録）落胆が“怒り”に聞こえやすい。言い直しの一言を準備。",
+    },
+    {
+      caseId: "C05",
+      scene: "安全配慮（瞬間的な強い語気）",
+      trigger: "危険行動／ヒヤリ",
+      childMessage: "お母さんは、あなたが心配でドキッとしたみたい。",
+      parentNotification: "（記録）安全場面は語気が強くなりやすい。落ち着いた後に理由説明を。",
+    },
+    {
+      caseId: "C06",
+      scene: "在宅ワーク／切り替え困難",
+      trigger: "仕事中に遊び要求",
+      childMessage: "お父さんはいま仕事の時間。終わったら、遊ぶ気持ちが戻るよ。",
+      parentNotification: "（記録）“終わったら”の見通し提示が有効かも。時間の目安を設定。",
+    },
+    {
+      caseId: "C07",
+      scene: "理由を問う（詰問に誤解）",
+      trigger: "子の意図が読めない行動",
+      childMessage: "お母さんは、どうしてそうしたのか知りたいみたい。",
+      parentNotification: "（記録）“知りたい”に言い換えると対話になりやすい可能性。",
+    },
+  ];
+
+  // MVP: 入力に関わらず固定で返すケース
+  const FIXED_CASE_ID = "C01";
+
   const ALLOWED_MIME_TYPES = new Set([
     // video
     "video/mp4",
@@ -292,10 +348,30 @@
     const preview = $("input-preview");
     if (!preview) return;
 
+    const childMessageEl = $("child-message");
+    const parentNotificationEl = $("parent-notification");
+    const copyChildBtn = $("copy-child");
+    const copyParentBtn = $("copy-parent");
+
     const draft = loadUploadDraft();
     if (!draft) {
       preview.textContent = "（入力が見つかりませんでした。Upload画面からやり直してください）";
       return;
+    }
+
+    const fixedCase =
+      PARENT_CHILD_MOCK_CASES.find((c) => c.caseId === FIXED_CASE_ID) || PARENT_CHILD_MOCK_CASES[0];
+    if (childMessageEl) childMessageEl.textContent = fixedCase.childMessage;
+    if (parentNotificationEl) parentNotificationEl.textContent = fixedCase.parentNotification;
+    if (copyChildBtn) {
+      copyChildBtn.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(fixedCase.childMessage);
+      });
+    }
+    if (copyParentBtn) {
+      copyParentBtn.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(fixedCase.parentNotification);
+      });
     }
 
     const lines = [];

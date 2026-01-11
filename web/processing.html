@@ -15,20 +15,20 @@
       }
 
       :root {
-        --primary: #6366f1;
-        --primary-dark: #4f46e5;
-        --primary-light: #818cf8;
-        --secondary: #ec4899;
-        --background: #0f172a;
-        --surface: #1e293b;
-        --text-primary: #f1f5f9;
-        --text-secondary: #cbd5e1;
-        --border: #334155;
+        --primary: #3f4b63;
+        --primary-dark: #2f394c;
+        --primary-light: #65739a;
+        --secondary: #f2c3a1;
+        --background: #eaf3fb;
+        --surface: #ffffff;
+        --text-primary: #3f4b63;
+        --text-secondary: #74809a;
+        --border: rgba(63, 75, 99, 0.12);
       }
 
       body {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        background: var(--background);
         color: var(--text-primary);
         min-height: 100vh;
         display: flex;
@@ -38,7 +38,7 @@
       }
 
       main {
-        max-width: 500px;
+        max-width: 420px;
         width: 100%;
         text-align: center;
         animation: fadeIn 0.5s ease-out;
@@ -56,13 +56,10 @@
       }
 
       h1 {
-        font-size: 2rem;
+        font-size: 1.4rem;
         font-weight: 700;
         margin-bottom: 1rem;
-        background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: var(--text-primary);
       }
 
       .status-text {
@@ -79,8 +76,8 @@
         width: 80px;
         height: 80px;
         margin: 0 auto 2rem;
-        border: 4px solid var(--surface);
-        border-top: 4px solid var(--primary);
+        border: 4px solid rgba(63, 75, 99, 0.12);
+        border-top: 4px solid rgba(63, 75, 99, 0.7);
         border-radius: 50%;
         animation: spin 1s linear infinite;
       }
@@ -93,7 +90,7 @@
       .progress-bar-container {
         width: 100%;
         height: 12px;
-        background: var(--surface);
+        background: rgba(255, 255, 255, 0.75);
         border-radius: 6px;
         overflow: hidden;
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -101,17 +98,17 @@
 
       .progress-bar {
         height: 100%;
-        background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+        background: rgba(63, 75, 99, 0.75);
         border-radius: 6px;
         transition: width 0.3s ease;
-        box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        box-shadow: none;
       }
 
       #progress {
         margin-top: 1rem;
         font-size: 1.5rem;
         font-weight: 600;
-        color: var(--primary-light);
+        color: var(--text-primary);
       }
 
       .dots {
@@ -139,7 +136,7 @@
   </head>
   <body>
     <main>
-      <h1>⚙️ 処理中</h1>
+      <h1>処理中</h1>
       <!-- <p class="status-text">（MVPではダミー表示です）</p> -->
       <div class="loader-container">
         <div class="spinner"></div>
